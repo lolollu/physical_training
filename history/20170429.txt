@@ -1,0 +1,45 @@
+*** 20170429 ***
+~~~~~~~~~~~~~~~~~~~~
+Code : 5.1.6
+Rest Time : 25
+Regular Reps : 3
+Regular Times : 12    12    12    
+*User Reps : 
+*User Times : 
+--------------------------------
+Code : 5.1.5
+Rest Time : 25
+Regular Reps : 3
+Regular Times : 12    12    12    
+*User Reps : 
+*User Times : 
+--------------------------------
+Code : 5.2.5
+Rest Time : 25
+Regular Reps : 3
+Regular Times : 12    12    12    
+*User Reps : 
+*User Times : 
+--------------------------------
+Code : 5.1.5
+Rest Time : 25
+Regular Reps : 3
+Regular Times : 12    12    12    
+*User Reps : 
+*User Times : 
+--------------------------------
+Code : 2.1.3
+Rest Time : 25
+Regular Reps : 3
+Regular Times : 12    12    12    
+*User Reps : 
+*User Times : 
+--------------------------------
+Code : 2.2.3
+Rest Time : 25
+Regular Reps : 3
+Regular Times : 12    12    12    
+*User Reps : 
+*User Times : 
+--------------------------------
+Notes:
