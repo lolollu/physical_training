@@ -93,7 +93,7 @@ def action_weights():
     else:
         for key, value in pool.items():
             pool[key] = pool[key] / float(count)
-        print pool
+        #print pool
         return pool
 
 def list_count(li):
@@ -131,7 +131,7 @@ def upgrade_level(action_code):
                 if action['code'] == action_code:
                     if reps_quality is True:
                         thread += 1
-                        if thread >= 4:
+                        if thread >= 8:
                             return True
     return False
 

@@ -219,6 +219,7 @@ def write_log(date,actions):
         f.write('Notes:')
 
 def latest_day():
+    today = int(time.strftime("%Y%m%d",time.localtime()))
     log_list = os.listdir('./history')
     log_files = [i for i in log_list if '.json' in i]
     log_files = [i.split('.')[0] for i in log_files ]
@@ -227,7 +228,8 @@ def latest_day():
     time_stamp = int(time.mktime(time_array))
     date_array = datetime.datetime.utcfromtimestamp(time_stamp)
     next_day = date_array + datetime.timedelta(days = 2)
-    return next_day.strftime("%Y%m%d")
+    next_day = int(next_day.strftime("%Y%m%d"))
+    return str(today) if today >= next_day else next_day
 
 if __name__ == '__main__':
     next_day = latest_day()
