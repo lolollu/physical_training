@@ -55,12 +55,12 @@ def main_part_logic(main_list):
         main_list.append(get_new_action(random.choice(main_list),potential_upgrade))
 
     elif len(main_list) == 1:
-        new_one = get_previos_action(main_list[0])
+        new_one = relations.get_previos_action(main_list[0])
         if new_one == u'':
             start = main_list[0]
             while True:
                 print start
-                new_one = get_next_action(start)
+                new_one = relations.get_next_action(start)
                 for new in new_one:
                     main_list.append(new)
                 if len(main_list) >= 3:
@@ -78,13 +78,12 @@ def secondary_part_logic(second_list):
             second_list.remove(random.choice(second_list))
     if len(second_list) == 2:
         return second_list
-    elif len(main_list) == 1:
-        second_list.append(get_new_action(main_list[0],potential_upgrade))
+    elif len(second_list) == 1:
+        second_list.append(get_new_action(second_list[0],potential_upgrade))
     return second_list
 
 def day_class():
     user_profile = user_info.load_info()
-    streams = [1,2,3,4,5]
     parts = []
     #get the weighted parts
     part1 = [1,2,3]
@@ -226,14 +225,14 @@ def write_log(date,actions):
             '''
             #f.write(reg_times)
             reps = ''
-            for i in range(action.action_dict['regular_reps'][0]):
+            for i in range(action.action_dict['regular_reps']):
                 reps += "  ___ |"
             #f.write('*User Reps : \n')
             f.write('\n')
             f.write('*User Times : %s\n'%reps)
             history_content = 'History   :\n'
             for date, one in action_history:
-                line = '%s     '%date
+                line = '%s      '%date
                 for i in one:
                     line += '  %3d |'%i
                 line += '\n'
@@ -253,10 +252,10 @@ def latest_day(day):
     date_array = datetime.datetime.utcfromtimestamp(time_stamp)
     next_day = date_array + datetime.timedelta(days = 2)
     next_day = int(next_day.strftime("%Y%m%d"))
-    if day is not None:
-        return next_day
+    if day == 'today':
+        return str(today)
     else:
-        return str(today) if today >= next_day else next_day
+        return next_day
 
 if __name__ == '__main__':
     try:
