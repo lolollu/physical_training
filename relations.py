@@ -63,6 +63,8 @@ def detect_edge(start,pool,edge_pool):
         return start
 
 def avaliable_upgrade_codes(code_list):
+    if code_list == []:
+        return []
     action_pool = []
     for code in code_list:
         action_pool.append(code)
@@ -76,7 +78,6 @@ def avaliable_upgrade_codes(code_list):
             else:
                 break
     action_pool.append("%s.1.1"%code_list[0].split('.')[0])
-
     h = []
     detect_edge('1.1.1',action_pool,h)
     return h

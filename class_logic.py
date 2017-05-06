@@ -9,6 +9,7 @@ import random
 import time
 import datetime
 import os
+import sys
 
 def analyse_history():
     pass
@@ -36,32 +37,33 @@ def get_new_action(action_code,potential_upgrade):
 def main_part_logic(main_list):
     potential_upgrade = relations.avaliable_upgrade_codes(main_list)
     while True:
-        if len(main_list) <= 4:
+        if len(main_list) <= 3:
             break
         else:
             main_list.remove(random.choice(main_list))
-    if len(main_list) == 4:
+    '''
+    if len(main_list) == 3:
         main_list.remove(random.choice(main_list))
         rand_select = random.choice(main_list)
         main_list.append(get_new_action(rand_select,potential_upgrade))
-    elif len(main_list) == 3:
+
+    elif len(main_list) == 2:
         rand_select = random.choice(main_list)
         main_list.append(get_new_action(rand_select,potential_upgrade))
-    elif len(main_list) == 2:
-        tmp = []
-        for action_code in main_list:
-            tmp.append(get_new_action(action_code,potential_upgrade))
-        main_list = [main_list[0],tmp[0],main_list[1],tmp[0]]
+    '''
+    if len(main_list) == 2:
+        main_list.append(get_new_action(random.choice(main_list),potential_upgrade))
+
     elif len(main_list) == 1:
         new_one = get_previos_action(main_list[0])
-        if pre == u'':
+        if new_one == u'':
             start = main_list[0]
             while True:
                 print start
-                new_one =  get_next_action(start)
+                new_one = get_next_action(start)
                 for new in new_one:
                     main_list.append(new)
-                if len(main_list) == 4:
+                if len(main_list) >= 3:
                     break
                 else:
                     start = new
@@ -84,6 +86,32 @@ def day_class():
     user_profile = user_info.load_info()
     streams = [1,2,3,4,5]
     parts = []
+    #get the weighted parts
+    part1 = [1,2,3]
+    part2 = [3,4,5]
+    last_first, last_second = history.latest_two()
+    if last_first is not None:
+        first_prop = history.action_proportion2(last_first)
+        print first_prop
+        for number in first_prop:
+            if number in part1:
+                part1.remove(number)
+            if number in part2:
+                part2.remove(number)
+    if 3 in part1:
+        rand_number = random.random()
+        if rand_number <= 0.666667:
+            part1.remove(3)
+            parts.append(part1[0])
+        else:
+            parts.append(3)
+    else:
+        parts.append(random.choice(part1))
+    if 3 in parts:
+        part2.remove(3)
+    parts.append(random.choice(part2))
+
+    '''
     #get the two parts
     last_first, last_second = history.latest_two()
     if last_first is not None:
@@ -93,13 +121,6 @@ def day_class():
                 streams.remove(int(key.split('.')[0]))
             except:
                 pass
-        '''
-        if last_second is not None:
-            second_prop = history.action_proportion(last_second)
-            chance = random.randint(0,1)
-            key = second_prop.items()[chance][0]
-            streams.remove(int(key.split('.')[0]))
-        '''
 
     current_weights_pool = history.action_weights()
     container = []
@@ -135,22 +156,6 @@ def day_class():
                 streams.remove(select)
             else:
                 break
-
-    '''
-    if len(container) >=2:
-        parts = [container[0][0],container[1][0]]
-    elif len(container) == 1:
-        first = container[0][0]
-        try:
-            streams.remove(first)
-        except:
-            pass
-        parts = [first,random.choice[streams]]
-    else:
-        parts.append(random.choice(streams))
-        streams.remove(parts[0])
-        parts.append(random.choice(streams))
-
     '''
     print 'Parts : ', parts
 
@@ -187,15 +192,18 @@ def day_class():
     for code in full:
         action = history.action_struct()
         action.action_dict['code'] = code
-        action.action_dict['regular_reps'] = 3
-        action.action_dict['regular_times'] = [12,12,12]
+        action.action_dict['regular_reps'] = 6
+        action.action_dict['regular_times'] = [8]
         action.action_dict['rest_time'] = 25
         action_list.append(action)
 
-    print time.strftime('%Y%m%d')
+    #print time.strftime('%Y%m%d')
     print '~~~~~~~~~~~~~~~~~~~~~~'
     for action in action_list:
         action.show_action()
+        action_history = history.action_reps_record(action.action_dict['code'],3)
+        for i in action_history:
+            print i
         print '----------------------'
     return action_list
 
@@ -205,20 +213,36 @@ def write_log(date,actions):
         f.write('*** %s ***\n'%date)
         f.write('~~~~~~~~~~~~~~~~~~~~\n')
         for action in actions:
+            action_history = history.action_reps_record(action.action_dict['code'],3)
             f.write('Code : %s\n'%action.action_dict['code'])
-            f.write('Rest Time : %d\n'%action.action_dict['rest_time'] )
-            f.write('Regular Reps : %d\n'%action.action_dict['regular_reps'])
+            #f.write('Rest Time : %d\n'%action.action_dict['rest_time'] )
+            f.write('Regular Reps : %d   |   Regular Times Each Rep : %d\n'%(action.action_dict['regular_reps'],
+                                                                             action.action_dict['regular_times'][0]))
+            '''
             reg_times = ''
             for i in action.action_dict['regular_times']:
                 reg_times += '%d    '%i
-            reg_times = 'Regular Times : '+reg_times+ '\n'
-            f.write(reg_times)
-            f.write('*User Reps : \n')
-            f.write('*User Times : \n')
-            f.write('--------------------------------\n')
+            reg_times = 'Regular Times each rep : %d\n'%action.action_dict['regular_times'][0]
+            '''
+            #f.write(reg_times)
+            reps = ''
+            for i in range(action.action_dict['regular_reps'][0]):
+                reps += "  ___ |"
+            #f.write('*User Reps : \n')
+            f.write('\n')
+            f.write('*User Times : %s\n'%reps)
+            history_content = 'History   :\n'
+            for date, one in action_history:
+                line = '%s     '%date
+                for i in one:
+                    line += '  %3d |'%i
+                line += '\n'
+                history_content += line
+            f.write(history_content)
+            f.write('_______________________________________________________________________\n')
         f.write('Notes:')
 
-def latest_day():
+def latest_day(day):
     today = int(time.strftime("%Y%m%d",time.localtime()))
     log_list = os.listdir('./history')
     log_files = [i for i in log_list if '.json' in i]
@@ -229,10 +253,17 @@ def latest_day():
     date_array = datetime.datetime.utcfromtimestamp(time_stamp)
     next_day = date_array + datetime.timedelta(days = 2)
     next_day = int(next_day.strftime("%Y%m%d"))
-    return str(today) if today >= next_day else next_day
+    if day is not None:
+        return next_day
+    else:
+        return str(today) if today >= next_day else next_day
 
 if __name__ == '__main__':
-    next_day = latest_day()
+    try:
+        day = sys.argv[1]
+    except:
+        day = None
+    next_day = latest_day(day)
     actions = day_class()
     write_log(next_day,actions)
     history.write_log(next_day,actions)

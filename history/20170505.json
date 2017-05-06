@@ -1,0 +1,80 @@
+[
+    {
+        "code": "3.1.6",
+        "image_link": "",
+        "user_reps": 3,
+        "rest_time": 25,
+        "regular_reps": 3,
+        "user_times": [16,12,14],
+        "regular_times": [
+            12,
+            12,
+            12
+        ]
+    },
+    {
+        "code": "3.1.5",
+        "image_link": "",
+        "user_reps": 3,
+        "rest_time": 25,
+        "regular_reps": 3,
+        "user_times": [10,15,12],
+        "regular_times": [
+            12,
+            12,
+            12
+        ]
+    },
+    {
+        "code": "3.2.6",
+        "image_link": "",
+        "user_reps": 3,
+        "rest_time": 25,
+        "regular_reps": 3,
+        "user_times": [12,10,12],
+        "regular_times": [
+            12,
+            12,
+            12
+        ]
+    },
+    {
+        "code": "3.1.5",
+        "image_link": "",
+        "user_reps": 3,
+        "rest_time": 25,
+        "regular_reps": 3,
+        "user_times": [13,12,12],
+        "regular_times": [
+            12,
+            12,
+            12
+        ]
+    },
+    {
+        "code": "1.2.9",
+        "image_link": "",
+        "user_reps": 3,
+        "rest_time": 25,
+        "regular_reps": 3,
+        "user_times": [10,10,9],
+        "regular_times": [
+            12,
+            12,
+            12
+        ]
+    },
+    {
+        "code": "1.5.9",
+        "image_link": "",
+        "user_reps": 3,
+        "rest_time": 25,
+        "regular_reps": 3,
+        "user_times": [12,10,11],
+        "regular_times": [
+            12,
+            12,
+            12
+        ]
+    }
+]

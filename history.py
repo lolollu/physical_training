@@ -33,6 +33,10 @@ class action_struct():
         print 'user_times : '
 
 
+def log_file_list():
+    log_list = os.listdir('./history')
+    log_files = [i for i in log_list if '.json' in i]
+    return log_files
 
 def write_log(date,action_list):
     log = []
@@ -66,9 +70,19 @@ def action_proportion(date_file):
             proportion[action['code']] = 1
     return proportion
 
+def action_proportion2(date_file):
+    with open('./history/%s'%date_file, 'r') as f:
+        log = json.loads(f.read())
+
+    proportion = []
+    for action in log:
+        number = int(action['code'].split('.')[0])
+        if number not in proportion:
+            proportion.append(number)
+    return proportion
+
 def latest_two():
-    log_list = os.listdir('./history')
-    tmp = [i for i in log_list if '.json' in i]
+    tmp = log_file_list()
     if len(tmp) >= 2:
         first = tmp.pop()
         second = tmp.pop()
@@ -79,8 +93,7 @@ def latest_two():
         return (None,None)
 
 def action_weights():
-    log_list = os.listdir('./history')
-    log_files = [i for i in log_list if '.json' in i]
+    log_files = log_file_list()
     pool = {1:0,2:0,3:0,4:0,5:0}
     count = 0
     for log_file in log_files:
@@ -120,8 +133,7 @@ def reps_quality(action):
             return True
 
 def upgrade_level(action_code):
-    log_list = os.listdir('./history')
-    log_files = [i for i in log_list if '.json' in i]
+    log_files = log_file_list()
     log_files.reverse()
     thread = 0
     for log_file in log_files:
@@ -131,9 +143,28 @@ def upgrade_level(action_code):
                 if action['code'] == action_code:
                     if reps_quality is True:
                         thread += 1
-                        if thread >= 8:
+                        if thread >= 3:
                             return True
     return False
+
+
+def action_reps_record(action_code,times_count):
+    log_files = log_file_list()
+    container = []
+    while 1:
+        if log_files == []:
+            break
+        if len(container) == 3:
+            break
+        log_file_name = log_files.pop()
+        with open('./history/%s'%log_file_name, 'r') as f:
+            log = json.loads(f.read())
+            for action in log:
+                if action['code'] == action_code:
+                    container.append((log_file_name.split('.')[0],action['user_times']))
+
+    return container
+
 
 if __name__ == '__main__':
     action_weights()
