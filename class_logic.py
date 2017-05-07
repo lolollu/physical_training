@@ -6,27 +6,9 @@ import relations
 import user_info
 import time
 import random
-import time
 import datetime
 import os
 import sys
-
-def analyse_history():
-    pass
-
-def actions_filter(parts,levels):
-    levels_container = []
-    for level in levels:
-        part = int(level.split('.')[0])
-        if part in parts:
-            container.append(level)
-    for key,value in container:
-        pass
-
-def sub_stream_filter(level_list):
-    container = {}
-    for level in level_list:
-        sub_stream = int(level.split('.')[1])
 
 def get_new_action(action_code,potential_upgrade):
     new_action = relations.get_previos_action(action_code)
@@ -206,10 +188,10 @@ def day_class():
         print '----------------------'
     return action_list
 
-def write_log(date,actions):
+def write_log(date,actions,history_count):
     src = './history/%s.txt'%date
     with open(src, 'wb') as f:
-        f.write('*** %s ***\n'%date)
+        f.write('*** %s *** | ***%d***\n'%(date,history_count))
         f.write('~~~~~~~~~~~~~~~~~~~~\n')
         for action in actions:
             action_history = history.action_reps_record(action.action_dict['code'],3)
@@ -264,7 +246,8 @@ if __name__ == '__main__':
         day = None
     next_day = latest_day(day)
     actions = day_class()
-    write_log(next_day,actions)
+    history_count = len(history.log_file_list()) + 1
+    write_log(next_day,actions,history_count)
     history.write_log(next_day,actions)
 
 
