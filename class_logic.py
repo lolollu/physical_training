@@ -231,8 +231,8 @@ def latest_day(day):
     latest = log_files.pop()
     time_array = time.strptime(latest,"%Y%m%d")
     time_stamp = int(time.mktime(time_array))
-    date_array = datetime.datetime.utcfromtimestamp(time_stamp)
-    next_day = date_array + datetime.timedelta(days = 2)
+    date_array = datetime.datetime.utcfromtimestamp(time_stamp) + datetime.timedelta(hours = 8)
+    next_day = date_array + datetime.timedelta(days = 1)
     next_day = int(next_day.strftime("%Y%m%d"))
     if day == 'today':
         return str(today)

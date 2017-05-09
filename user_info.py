@@ -27,6 +27,7 @@ def json_loader(src):
     return dicts
 
 def update_level(current_level, next_level):
+    src = r'./user_profile.json'
     user_profile = json_loader(src)
     for i in current_level:
         user_profile[levels].remove(i)
@@ -34,7 +35,6 @@ def update_level(current_level, next_level):
         user_profile['levels'].append(i)
 
     json_writer(user_profile,src)
-
 
 def load_info():
     user = user_struct()

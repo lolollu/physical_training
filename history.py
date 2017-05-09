@@ -119,7 +119,7 @@ def reps_quality(action):
     if action.action_dict["user_reps"] < action.action_dict["regular_reps"]:
         return False
     else:
-        regular_count = list_count(action.action_dict["regular_times"])
+        regular_count = action.action_dict["regular_times"][0] * action.action_dict["regular_reps"]
         user_count = list_count(action.action_dict["user_times"])
         if user_count < regular_count:
             return False
@@ -136,16 +136,28 @@ def upgrade_level(action_code):
     log_files = log_file_list()
     log_files.reverse()
     thread = 0
+    stack = []
     for log_file in log_files:
         with open('./history/%s'%log_file, 'r') as f:
             log = json.loads(f.read())
             for action in log:
                 if action['code'] == action_code:
-                    if reps_quality is True:
-                        thread += 1
-                        if thread >= 3:
-                            return True
-    return False
+                    stack.append(action)
+                    if len(stack) == 3:
+                        break
+    if len(stack) < 3:
+        return False
+    else:
+        for action in stack:
+            print action["user_reps"]
+            print action["regular_reps"]
+            if action["user_reps"] < action["regular_reps"]:
+                return False
+            mean = list_count(action["regular_times"])/len(action["regular_times"])
+            if mean <  1.15 * action["regular_times"][0]:
+                return False
+        return True
+
 
 
 def action_reps_record(action_code,times_count):
@@ -165,35 +177,26 @@ def action_reps_record(action_code,times_count):
 
     return container
 
+def action_histgram():
+    log_files = log_file_list()
+    container = {}
+    for log_file in log_files:
+        with open('./history/%s'%log_file, 'r') as f:
+            log = json.loads(f.read())
+            for action in log:
+                if not container.has_key(action['code']):
+                    container[action['code']] = 1
+                else:
+                    container[action['code']] += 1
+
+    for key, item in container.items():
+        print "%s : %d"%(key, item)
+
 
 if __name__ == '__main__':
-    action_weights()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    #action_weights()
+    #print upgrade_level('4.2.4')
+    action_histgram()
 
 
 
