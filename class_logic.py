@@ -23,16 +23,6 @@ def main_part_logic(main_list):
             break
         else:
             main_list.remove(random.choice(main_list))
-    '''
-    if len(main_list) == 3:
-        main_list.remove(random.choice(main_list))
-        rand_select = random.choice(main_list)
-        main_list.append(get_new_action(rand_select,potential_upgrade))
-
-    elif len(main_list) == 2:
-        rand_select = random.choice(main_list)
-        main_list.append(get_new_action(rand_select,potential_upgrade))
-    '''
     if len(main_list) == 2:
         main_list.append(get_new_action(random.choice(main_list),potential_upgrade))
 
@@ -92,52 +82,6 @@ def day_class():
         part2.remove(3)
     parts.append(random.choice(part2))
 
-    '''
-    #get the two parts
-    last_first, last_second = history.latest_two()
-    if last_first is not None:
-        first_prop = history.action_proportion(last_first)
-        for key,value in first_prop.items():
-            try:
-                streams.remove(int(key.split('.')[0]))
-            except:
-                pass
-
-    current_weights_pool = history.action_weights()
-    container = []
-    for key,value in current_weights_pool.items():
-        if abs(user_profile.action_weights[str(key)] - value) > 0.005:
-            container.append((int(key),user_profile.action_weights[str(key)] - value))
-
-    parts = []
-    if container != []:
-        container = sorted(container, key=lambda value: value[1])
-
-        lenght = len(container)
-        for i in range(lenght):
-            if container[lenght - i -1][0] in streams:
-                parts.append(container[lenght - i -1][0])
-        while 1:
-            if len(parts) >2:
-                parts.pop()
-            else:
-                break
-        while 1:
-            if len(parts) < 2:
-                select = random.choice(streams)
-                parts.append(select)
-                streams.remove(select)
-            else:
-                break
-    else:
-        while 1:
-            if len(parts) < 2:
-                select = random.choice(streams)
-                parts.append(select)
-                streams.remove(select)
-            else:
-                break
-    '''
     print 'Parts : ', parts
 
     #get actions order list
@@ -199,12 +143,6 @@ def write_log(date,actions,history_count):
             #f.write('Rest Time : %d\n'%action.action_dict['rest_time'] )
             f.write('Regular Reps : %d   |   Regular Times Each Rep : %d\n'%(action.action_dict['regular_reps'],
                                                                              action.action_dict['regular_times'][0]))
-            '''
-            reg_times = ''
-            for i in action.action_dict['regular_times']:
-                reg_times += '%d    '%i
-            reg_times = 'Regular Times each rep : %d\n'%action.action_dict['regular_times'][0]
-            '''
             #f.write(reg_times)
             reps = ''
             for i in range(action.action_dict['regular_reps']):
@@ -212,7 +150,7 @@ def write_log(date,actions,history_count):
             #f.write('*User Reps : \n')
             f.write('\n')
             f.write('*User Times : %s\n'%reps)
-            history_content = 'History   :\n'
+            history_content = 'History   :  %d times in total\n'%history.count_action_times(action.action_dict['code'])
             for date, one in action_history:
                 line = '%s      '%date
                 for i in one:
@@ -221,7 +159,6 @@ def write_log(date,actions,history_count):
                 history_content += line
             f.write(history_content)
             f.write('_______________________________________________________________________\n')
-        f.write('Notes:')
 
 def latest_day(day):
     today = int(time.strftime("%Y%m%d",time.localtime()))

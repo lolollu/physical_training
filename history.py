@@ -143,12 +143,12 @@ def upgrade_level(action_code):
             for action in log:
                 if action['code'] == action_code:
                     stack.append(action)
-                    if len(stack) == 3:
-                        break
     if len(stack) < 3:
         return False
+    elif len(stack) < 8:
+        return False
     else:
-        for action in stack:
+        for action in stack[-3:]:
             print action["user_reps"]
             print action["regular_reps"]
             if action["user_reps"] < action["regular_reps"]:
@@ -157,8 +157,6 @@ def upgrade_level(action_code):
             if mean <  1.15 * action["regular_times"][0]:
                 return False
         return True
-
-
 
 def action_reps_record(action_code,times_count):
     log_files = log_file_list()
@@ -192,6 +190,17 @@ def action_histgram():
     for key, item in container.items():
         print "%s : %d"%(key, item)
 
+def count_action_times(action_code):
+    log_files = log_file_list()
+    count = 0
+    for log_file in log_files:
+        with open('./history/%s'%log_file, 'r') as f:
+            log = json.loads(f.read())
+            for action in log:
+                if action['code'] == action_code:
+                    count += 1
+
+    return count
 
 if __name__ == '__main__':
     #action_weights()
