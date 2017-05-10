@@ -9,6 +9,8 @@ import random
 import datetime
 import os
 import sys
+import image_guide
+
 
 def get_new_action(action_code,potential_upgrade):
     new_action = relations.get_previos_action(action_code)
@@ -54,15 +56,15 @@ def secondary_part_logic(second_list):
         second_list.append(get_new_action(second_list[0],potential_upgrade))
     return second_list
 
-def day_class():
+def day_class(user):
     user_profile = user_info.load_info()
     parts = []
     #get the weighted parts
     part1 = [1,2,3]
     part2 = [3,4,5]
-    last_first, last_second = history.latest_two()
+    last_first, last_second = history.latest_two(user)
     if last_first is not None:
-        first_prop = history.action_proportion2(last_first)
+        first_prop = history.action_proportion2(user,last_first)
         print first_prop
         for number in first_prop:
             if number in part1:
@@ -89,7 +91,7 @@ def day_class():
     container = [[],[]]
     for action_code in action_codes:
         if int(action_code.split('.')[0]) == parts[0]:
-            if history.upgrade_level(action_code):
+            if history.upgrade_level(user,action_code):
                 next_action = relations.get_next_action(action_code)
                 for n in next_action:
                     container[0].append(n)
@@ -97,7 +99,7 @@ def day_class():
             else:
                 container[0].append(action_code)
         elif int(action_code.split('.')[0]) == parts[1]:
-            if history.upgrade_level(action_code):
+            if history.upgrade_level(user,action_code):
                 next_action = relations.get_next_action(action_code)
                 for n in next_action:
                     container[1].append(n)
@@ -126,19 +128,19 @@ def day_class():
     print '~~~~~~~~~~~~~~~~~~~~~~'
     for action in action_list:
         action.show_action()
-        action_history = history.action_reps_record(action.action_dict['code'],3)
+        action_history = history.action_reps_record(user,action.action_dict['code'],3)
         for i in action_history:
             print i
         print '----------------------'
     return action_list
 
-def write_log(date,actions,history_count):
-    src = './history/%s.txt'%date
+def write_log(user,date,actions,history_count):
+    src = './history/%s/%s.txt'%(user,date)
     with open(src, 'wb') as f:
         f.write('*** %s *** | ***%d***\n'%(date,history_count))
         f.write('~~~~~~~~~~~~~~~~~~~~\n')
         for action in actions:
-            action_history = history.action_reps_record(action.action_dict['code'],3)
+            action_history = history.action_reps_record(user,action.action_dict['code'],3)
             f.write('Code : %s\n'%action.action_dict['code'])
             #f.write('Rest Time : %d\n'%action.action_dict['rest_time'] )
             f.write('Regular Reps : %d   |   Regular Times Each Rep : %d\n'%(action.action_dict['regular_reps'],
@@ -150,7 +152,7 @@ def write_log(date,actions,history_count):
             #f.write('*User Reps : \n')
             f.write('\n')
             f.write('*User Times : %s\n'%reps)
-            history_content = 'History   :  %d times in total\n'%history.count_action_times(action.action_dict['code'])
+            history_content = 'History   :  %d times in total\n'%history.count_action_times(user,action.action_dict['code'])
             for date, one in action_history:
                 line = '%s      '%date
                 for i in one:
@@ -160,9 +162,9 @@ def write_log(date,actions,history_count):
             f.write(history_content)
             f.write('_______________________________________________________________________\n')
 
-def latest_day(day):
+def latest_day(user,day):
     today = int(time.strftime("%Y%m%d",time.localtime()))
-    log_list = os.listdir('./history')
+    log_list = os.listdir('./history/%s'%user)
     log_files = [i for i in log_list if '.json' in i]
     log_files = [i.split('.')[0] for i in log_files ]
     latest = log_files.pop()
@@ -178,14 +180,17 @@ def latest_day(day):
 
 if __name__ == '__main__':
     try:
-        day = sys.argv[1]
+        user = sys.argv[1]
     except:
-        day = None
-    next_day = latest_day(day)
-    actions = day_class()
-    history_count = len(history.log_file_list()) + 1
-    write_log(next_day,actions,history_count)
-    history.write_log(next_day,actions)
+        user = None
+    next_day = latest_day(user,None)
+    actions = day_class(user)
+    action_code_list = [i.action_dict['code'] for i in actions]
+    history_count = len(history.log_file_list(user)) + 1
+    write_log(user,next_day,actions,history_count)
+    history.write_log(user,next_day,actions)
+    image_guide.create_image(user,next_day,action_code_list)
+
 
 
 

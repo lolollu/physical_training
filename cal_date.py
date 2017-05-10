@@ -5,6 +5,7 @@ import time
 import datetime
 #import PIL
 import history
+import sys
 
 week_name = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 month_name = ['January', 'February', 'March', 'April', 'May', 'June', 'July','August', 'September', 'October', 'November', 'December']
@@ -22,49 +23,55 @@ class date_struct():
         self.day = int(date_array.strftime("%d"))
 
 
-log_files = history.log_file_list()
-log_files.reverse()
-current_month = 0
 
 def all_days(last, first):
     d1 = datetime.date(int(last[:4]),int(last[4:6]),int(last[6:]))
     d2 = datetime.date(int(first[:4]),int(first[4:6]),int(first[6:]))
     return (d1-d2).days
 
-with open('./history/attendence.txt','wb') as attendence:
-    week_line = week_name[:]
-    week_line.reverse()
-    current_week_line = week_line[:]
-    period = all_days(log_files[0].split('.')[0],log_files[-1].split('.')[0])
-    attendence.write("%d times in %d days\n"%(len(log_files),period))
-    while log_files != []:
-        log_file = log_files.pop()
-        date = log_file.split('.')[0]
-        date_srt = date_struct(date)
-        if date_srt.month != current_month:
-            current_month = date_srt.month
-            attendence.write("\n%d | %s\n"%(date_srt.year,month_name[date_srt.month-1]))
-            for day in week_name:
-                attendence.write("%s "%day)
-            attendence.write('\n')
-        while current_week_line is not []:
+if __name__ == '__main__':
+    try:
+        user = sys.argv[1]
+    except:
+        sys.exit()
+
+    log_files = history.log_file_list(user)
+    log_files.reverse()
+    current_month = 0
+
+    with open('./history/%s/attendence.txt'%user,'wb') as attendence:
+        week_line = week_name[:]
+        week_line.reverse()
+        current_week_line = week_line[:]
+        period = all_days(log_files[0].split('.')[0],log_files[-1].split('.')[0])
+        attendence.write("%d times in %d days\n"%(len(log_files),period))
+        while log_files != []:
+            log_file = log_files.pop()
+            date = log_file.split('.')[0]
+            date_srt = date_struct(date)
+            if date_srt.month != current_month:
+                current_month = date_srt.month
+                attendence.write("\n%d | %s\n"%(date_srt.year,month_name[date_srt.month-1]))
+                for day in week_name:
+                    attendence.write("%s "%day)
+                attendence.write('\n')
+            while current_week_line is not []:
+                #print current_week_line
+                this_day = current_week_line.pop()
+                if date_srt.week != this_day:
+                    attendence.write("    ")
+                else:
+                    attendence.write("%3d "%date_srt.day)
+                    break
             #print current_week_line
-            this_day = current_week_line.pop()
-            if date_srt.week != this_day:
-                attendence.write("    ")
-            else:
-                attendence.write("%3d "%date_srt.day)
-                break
-        #print current_week_line
-        if current_week_line == []:
-            current_week_line = week_line[:]
-        if date_srt.week == "Sat":
-            attendence.write('\n')
+            if current_week_line == []:
+                current_week_line = week_line[:]
+            if date_srt.week == "Sat":
+                attendence.write('\n')
 
         #print log_files
-
-with open('./history/attendence.txt','r') as attendence:
-    print attendence.read()
+    with open('./history/%s/attendence.txt'%user,'r') as attendence:
+        print attendence.read()
 
 
 

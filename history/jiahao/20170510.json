@@ -1,0 +1,57 @@
+[
+    {
+        "code": "1.1.9",
+        "image_link": "",
+        "user_reps": 6,
+        "rest_time": 25,
+        "regular_reps": 6,
+        "user_times": [8,9,9,8,10,8],
+        "regular_times": [
+            8
+        ]
+    },
+    {
+        "code": "1.2.9",
+        "image_link": "",
+        "user_reps": 6,
+        "rest_time": 25,
+        "regular_reps": 6,
+        "user_times": [9,8,8,8,8,8],
+        "regular_times": [
+            8
+        ]
+    },
+    {
+        "code": "1.5.9",
+        "image_link": "",
+        "user_reps": 6,
+        "rest_time": 25,
+        "regular_reps": 6,
+        "user_times": [8,9,10,9,8,10],
+        "regular_times": [
+            8
+        ]
+    },
+    {
+        "code": "3.1.6",
+        "image_link": "",
+        "user_reps": 6,
+        "rest_time": 25,
+        "regular_reps": 6,
+        "user_times": [10,10,9,10,10,10],
+        "regular_times": [
+            8
+        ]
+    },
+    {
+        "code": "3.2.6",
+        "image_link": "",
+        "user_reps": 6,
+        "rest_time": 25,
+        "regular_reps": 6,
+        "user_times": [10,10,10,10,10,10],
+        "regular_times": [
+            8
+        ]
+    }
+]
