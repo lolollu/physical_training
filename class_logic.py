@@ -26,6 +26,7 @@ def main_part_logic(user,main_list):
         else:
             #main_list.remove(random.choice(main_list))
             history.kick_action(user,main_list)
+
     if len(main_list) == 2:
         main_list.append(get_new_action(random.choice(main_list),potential_upgrade))
 
@@ -50,9 +51,9 @@ def secondary_part_logic(user,second_list):
         if len(second_list) <= 2:
             break
         else:
-            second_list.remove(random.choice(second_list))
-    if len(second_list) == 2:
-        return second_list
+            #second_list.remove(random.choice(second_list))
+            history.kick_action(user,second_list)
+
     elif len(second_list) == 1:
         second_list.append(get_new_action(second_list[0],potential_upgrade))
     return second_list

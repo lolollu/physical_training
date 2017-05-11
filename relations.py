@@ -66,21 +66,28 @@ def avaliable_upgrade_codes(code_list):
     if code_list == []:
         return []
     action_pool = []
+    stream_count = []
     for code in code_list:
+        code_stream = code.split('.')[0]
+        if code_stream not in stream_count:
+            stream_count.append(code_stream)
         action_pool.append(code)
         now = code
         while True:
             pre_action = get_previos_action(now)
-            if pre_action != "%s.1.1"%code.split('.')[0]:
+            if pre_action != "%s.1.1"%code_stream:
                 if pre_action not in action_pool:
                     action_pool.append(pre_action)
                 now = pre_action
             else:
                 break
-    action_pool.append("%s.1.1"%code_list[0].split('.')[0])
-    h = []
-    detect_edge('1.1.1',action_pool,h)
-    return h
+        action_pool.append("%s.1.1"%code_stream)
+    count_list = []
+    for stream in stream_count:
+        h = []
+        detect_edge('%s.1.1'%stream,action_pool,h)
+        count_list += h
+    return count_list
 
 def show_profile():
     dicts = json_loader('./user_profile.json')
@@ -94,6 +101,6 @@ def show_profile():
 
 if __name__ == '__main__':
     #print get_next_action('1.4.11')
-    print avaliable_upgrade_codes(['1.1.6', '1.2.9', '1.3.7', '1.5.9'])
+    print avaliable_upgrade_codes(["1.1.9","1.2.9","1.3.7","1.5.9","2.1.3","2.2.3","3.1.6","3.2.6","4.1.3","4.2.4","5.1.6","5.2.5"])
     #print type(get_previos_action('1.1.1'))
     #show_profile()

@@ -145,7 +145,7 @@ def upgrade_level(user,action_code):
                     stack.append(action)
     if len(stack) < 3:
         return False
-    elif len(stack) < 8:
+    elif len(stack) < 6:
         return False
     else:
         for action in stack[-3:]:
