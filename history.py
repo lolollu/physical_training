@@ -202,6 +202,17 @@ def count_action_times(user,action_code):
 
     return count
 
+def kick_action(user,action_code_list):
+    max = 0
+    tmp_code = ''
+    for action_code in action_code_list:
+        tmp_count = count_action_times(user,action_code)
+        if max < tmp_count:
+            max = tmp_count
+            tmp_code = action_code
+    action_code_list.remove(tmp_code)
+
+
 if __name__ == '__main__':
     #action_weights()
     #print upgrade_level('4.2.4')

@@ -94,6 +94,6 @@ def show_profile():
 
 if __name__ == '__main__':
     #print get_next_action('1.4.11')
-    avaliable_upgrade_codes(['1.1.9', '1.2.9', '1.3.7', '1.5.9'])
+    print avaliable_upgrade_codes(['1.1.6', '1.2.9', '1.3.7', '1.5.9'])
     #print type(get_previos_action('1.1.1'))
     #show_profile()

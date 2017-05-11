@@ -18,13 +18,14 @@ def get_new_action(action_code,potential_upgrade):
         new_action = random.choice(potential_upgrade)
     return new_action
 
-def main_part_logic(main_list):
+def main_part_logic(user,main_list):
     potential_upgrade = relations.avaliable_upgrade_codes(main_list)
     while True:
         if len(main_list) <= 3:
             break
         else:
-            main_list.remove(random.choice(main_list))
+            #main_list.remove(random.choice(main_list))
+            history.kick_action(user,main_list)
     if len(main_list) == 2:
         main_list.append(get_new_action(random.choice(main_list),potential_upgrade))
 
@@ -43,7 +44,7 @@ def main_part_logic(main_list):
                     start = new
     return main_list
 
-def secondary_part_logic(second_list):
+def secondary_part_logic(user,second_list):
     potential_upgrade = relations.avaliable_upgrade_codes(second_list)
     while True:
         if len(second_list) <= 2:
@@ -113,8 +114,8 @@ def day_class(user):
     full = []
     action_list = []
 
-    full += main_part_logic(container[0])
-    full += secondary_part_logic(container[1])
+    full += main_part_logic(user,container[0])
+    full += secondary_part_logic(user,container[1])
 
     for code in full:
         action = history.action_struct()
