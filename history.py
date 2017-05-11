@@ -3,6 +3,7 @@
 
 import json
 import os
+import sys
 
 class action_struct():
     def __init__(self):
@@ -24,14 +25,13 @@ class action_struct():
     def action_order(self):
         return int(self.action_dict['code'].split('.')[2])
 
-    def show_action(self):
-        print 'code : ', self.action_dict['code']
-        print 'rest_time : ',self.action_dict['rest_time']
-        print 'regular_reps : ' , self.action_dict['regular_reps']
-        print 'regular_times : ', self.action_dict['regular_times']
-        print 'user_reps : ', self.action_dict['user_reps']
-        print 'user_times : '
-
+def show_action(action_dict):
+    print 'code : ', action_dict['code']
+    print 'rest_time : ',action_dict['rest_time']
+    print 'regular_reps : ' , action_dict['regular_reps']
+    print 'regular_times : ', action_dict['regular_times']
+    print 'user_reps : ', action_dict['user_reps']
+    print 'user_times : '
 
 def log_file_list(user):
     log_list = os.listdir('./history/%s'%user)
@@ -39,12 +39,8 @@ def log_file_list(user):
     return log_files
 
 def write_log(user,date,action_list):
-    log = []
-    for action in action_list:
-        log.append(action.action_dict)
-
     with open('./history/%s/%s.json'%(user,date), 'wb') as f:
-        f.write(json.dumps(log, indent = 4))
+        f.write(json.dumps(action_list, indent = 4))
 
 def update_log(user,date, user_info):
     with open('./history/%d.json'%date, 'r') as f:
@@ -55,7 +51,7 @@ def update_log(user,date, user_info):
         log[i]["user_reps"] = user_data[0]
         log[i]["user_times"] = user_data[1]
 
-    write_log(date, log)
+    write_log(user,date, log)
 
 
 def action_proportion(user,date_file):
@@ -212,11 +208,45 @@ def kick_action(user,action_code_list):
             tmp_code = action_code
     action_code_list.remove(tmp_code)
 
+def append_user_data(user,date):
+    with open('./history/%s/%s.json'%(user,date),'r') as f:
+        log = json.loads(f.read())
+        for i in range(len(log)):
+            action = log[i]
+            print action['code']
+            sets = raw_input("input sets data:")
+            sets = sets.split(',')
+            while True:
+                if '' in sets:
+                    sets.remove('')
+                else:
+                    break
+            sets = [int(j) for j in sets]
+            log[i]['user_times'] = sets
+            log[i]['user_reps'] = len(sets)
+
+    write_log(user,date,log)
+
 
 if __name__ == '__main__':
     #action_weights()
     #print upgrade_level('4.2.4')
-    action_histgram()
+    #action_histgram()
+    try:
+        user = sys.argv[1]
+        date = sys.argv[2]
+    except:
+        check = raw_input('do you want use default:jiahao account? y/n')
+        if check =='y':
+            user = 'jiahao'
+            date = latest_two(user)[0]
+        else:
+            sys.exit()
+
+    if date == None:
+        sys.exit()
+
+    append_user_data(user,date)
 
 
 

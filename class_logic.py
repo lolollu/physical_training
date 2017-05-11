@@ -9,7 +9,7 @@ import random
 import datetime
 import os
 import sys
-import image_guide
+import daily_guide
 
 
 def get_new_action(action_code,potential_upgrade):
@@ -54,7 +54,7 @@ def secondary_part_logic(user,second_list):
             #second_list.remove(random.choice(second_list))
             history.kick_action(user,second_list)
 
-    elif len(second_list) == 1:
+    if len(second_list) == 1:
         second_list.append(get_new_action(second_list[0],potential_upgrade))
     return second_list
 
@@ -124,13 +124,13 @@ def day_class(user):
         action.action_dict['regular_reps'] = 6
         action.action_dict['regular_times'] = [8]
         action.action_dict['rest_time'] = 25
-        action_list.append(action)
+        action_list.append(action.action_dict)
 
     #print time.strftime('%Y%m%d')
     print '~~~~~~~~~~~~~~~~~~~~~~'
     for action in action_list:
-        action.show_action()
-        action_history = history.action_reps_record(user,action.action_dict['code'],3)
+        history.show_action(action)
+        action_history = history.action_reps_record(user,action['code'],3)
         for i in action_history:
             print i
         print '----------------------'
@@ -142,27 +142,27 @@ def write_log(user,date,actions,history_count):
         f.write('*** %s *** | ***%d***\n'%(date,history_count))
         f.write('~~~~~~~~~~~~~~~~~~~~\n')
         for action in actions:
-            action_history = history.action_reps_record(user,action.action_dict['code'],3)
-            f.write('Code : %s\n'%action.action_dict['code'])
+            action_history = history.action_reps_record(user,action['code'],3)
+            f.write('Code : %s\n'%action['code'])
             #f.write('Rest Time : %d\n'%action.action_dict['rest_time'] )
-            f.write('Regular Reps : %d   |   Regular Times Each Rep : %d\n'%(action.action_dict['regular_reps'],
-                                                                             action.action_dict['regular_times'][0]))
+            f.write('Regular Reps :%2d | Regular Times Each Rep :%2d\n'%(action['regular_reps'],
+                                                                             action['regular_times'][0]))
             #f.write(reg_times)
             reps = ''
-            for i in range(action.action_dict['regular_reps']):
-                reps += "  ___ |"
+            for i in range(action['regular_reps']):
+                reps += "  __ |"
             #f.write('*User Reps : \n')
             f.write('\n')
             f.write('*User Times : %s\n'%reps)
-            history_content = 'History   :  %d times in total\n'%history.count_action_times(user,action.action_dict['code'])
+            history_content = 'History   :  %d times in total\n'%history.count_action_times(user,action['code'])
             for date, one in action_history:
                 line = '%s      '%date
                 for i in one:
-                    line += '  %3d |'%i
+                    line += '  %2d |'%i
                 line += '\n'
                 history_content += line
             f.write(history_content)
-            f.write('_______________________________________________________________________\n')
+            f.write('_________________________________________________\n')
 
 def latest_day(user,day):
     today = int(time.strftime("%Y%m%d",time.localtime()))
@@ -187,11 +187,12 @@ if __name__ == '__main__':
         user = None
     next_day = latest_day(user,None)
     actions = day_class(user)
-    action_code_list = [i.action_dict['code'] for i in actions]
+    action_code_list = [i['code'] for i in actions]
     history_count = len(history.log_file_list(user)) + 1
-    write_log(user,next_day,actions,history_count)
+    #write_log(user,next_day,actions,history_count)
+    daily_guide.gen_pdf(user,next_day, actions, history_count)
     history.write_log(user,next_day,actions)
-    image_guide.create_image(user,next_day,action_code_list)
+    #image_guide.create_image(user,next_day,action_code_list)
 
 
 
