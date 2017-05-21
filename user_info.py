@@ -30,7 +30,7 @@ def update_level(current_level, next_level):
     src = r'./user_profile.json'
     user_profile = json_loader(src)
     for i in current_level:
-        user_profile[levels].remove(i)
+        user_profile['levels'].remove(i)
     for i in next_level:
         user_profile['levels'].append(i)
 

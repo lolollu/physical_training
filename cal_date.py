@@ -33,6 +33,7 @@ if __name__ == '__main__':
     try:
         user = sys.argv[1]
     except:
+        print 'input user name'
         sys.exit()
 
     log_files = history.log_file_list(user)

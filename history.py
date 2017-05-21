@@ -144,12 +144,11 @@ def upgrade_level(user,action_code):
     elif len(stack) < 6:
         return False
     else:
-        for action in stack[-3:]:
-            print action["user_reps"]
-            print action["regular_reps"]
+        for action in stack[:3]:
             if action["user_reps"] < action["regular_reps"]:
+                print 'here'
                 return False
-            mean = list_count(action["regular_times"])/len(action["regular_times"])
+            mean = list_count(action["user_times"])/len(action["regular_times"])
             if mean <  1.15 * action["regular_times"][0]:
                 return False
         return True

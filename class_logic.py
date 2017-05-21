@@ -175,17 +175,23 @@ def latest_day(user,day):
     date_array = datetime.datetime.utcfromtimestamp(time_stamp) + datetime.timedelta(hours = 8)
     next_day = date_array + datetime.timedelta(days = 1)
     next_day = int(next_day.strftime("%Y%m%d"))
-    if day == 'today':
+    if day is None:
         return str(today)
+    elif len(day) == 8:
+        return day
     else:
-        return next_day
+        return str(next_day)
 
 if __name__ == '__main__':
     try:
         user = sys.argv[1]
     except:
         user = None
-    next_day = latest_day(user,None)
+    try:
+        date = sys.argv[2]
+    except:
+        date = None
+    next_day = latest_day(user,date)
     actions = day_class(user)
     action_code_list = [i['code'] for i in actions]
     history_count = len(history.log_file_list(user)) + 1
