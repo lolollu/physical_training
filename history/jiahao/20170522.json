@@ -1,67 +1,67 @@
 [
     {
-        "code": "3.1.7", 
+        "code": "1.1.9", 
         "image_link": "", 
         "user_reps": 6, 
         "rest_time": 25, 
         "regular_reps": 6, 
         "user_times": [
-            10, 
-            10, 
-            8, 
-            10, 
-            8, 
-            7
-        ], 
-        "regular_times": [
-            8
-        ]
-    }, 
-    {
-        "code": "3.2.7", 
-        "image_link": "", 
-        "user_reps": 6, 
-        "rest_time": 25, 
-        "regular_reps": 6, 
-        "user_times": [
-            10, 
-            10, 
-            10, 
-            6, 
-            8, 
-            8
-        ], 
-        "regular_times": [
-            8
-        ]
-    }, 
-    {
-        "code": "3.2.6", 
-        "image_link": "", 
-        "user_reps": 6, 
-        "rest_time": 25, 
-        "regular_reps": 6, 
-        "user_times": [
-            10, 
-            16, 
-            10, 
             10, 
             12, 
-            12
+            12, 
+            12, 
+            12, 
+            10
         ], 
         "regular_times": [
             8
         ]
     }, 
     {
-        "code": "4.1.4", 
+        "code": "1.2.10", 
         "image_link": "", 
         "user_reps": 6, 
         "rest_time": 25, 
         "regular_reps": 6, 
         "user_times": [
-            8, 
-            8, 
+            10, 
+            10, 
+            10, 
+            10, 
+            10, 
+            10
+        ], 
+        "regular_times": [
+            8
+        ]
+    }, 
+    {
+        "code": "1.5.10", 
+        "image_link": "", 
+        "user_reps": 6, 
+        "rest_time": 25, 
+        "regular_reps": 6, 
+        "user_times": [
+            11, 
+            7, 
+            9, 
+            10, 
+            9, 
+            9
+        ], 
+        "regular_times": [
+            8
+        ]
+    }, 
+    {
+        "code": "5.1.7", 
+        "image_link": "", 
+        "user_reps": 6, 
+        "rest_time": 25, 
+        "regular_reps": 6, 
+        "user_times": [
+            7, 
+            7, 
             7, 
             7, 
             7, 
@@ -72,18 +72,18 @@
         ]
     }, 
     {
-        "code": "4.2.5", 
+        "code": "5.2.6", 
         "image_link": "", 
         "user_reps": 6, 
         "rest_time": 25, 
         "regular_reps": 6, 
         "user_times": [
-            8, 
-            8, 
-            8, 
-            8, 
             9, 
-            9
+            9, 
+            9, 
+            9, 
+            10, 
+            10
         ], 
         "regular_times": [
             8
