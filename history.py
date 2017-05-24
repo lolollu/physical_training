@@ -36,6 +36,7 @@ def show_action(action_dict):
 def log_file_list(user):
     log_list = os.listdir('./history/%s'%user)
     log_files = [i for i in log_list if '.json' in i]
+    log_files.sort()
     return log_files
 
 def write_log(user,date,action_list):

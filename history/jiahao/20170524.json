@@ -1,0 +1,57 @@
+[
+    {
+        "code": "1.1.9", 
+        "image_link": "", 
+        "user_reps": 0, 
+        "rest_time": 25, 
+        "regular_reps": 6, 
+        "user_times": [], 
+        "regular_times": [
+            8
+        ]
+    }, 
+    {
+        "code": "1.2.10", 
+        "image_link": "", 
+        "user_reps": 0, 
+        "rest_time": 25, 
+        "regular_reps": 6, 
+        "user_times": [], 
+        "regular_times": [
+            8
+        ]
+    }, 
+    {
+        "code": "1.5.10", 
+        "image_link": "", 
+        "user_reps": 0, 
+        "rest_time": 25, 
+        "regular_reps": 6, 
+        "user_times": [], 
+        "regular_times": [
+            8
+        ]
+    }, 
+    {
+        "code": "5.1.7", 
+        "image_link": "", 
+        "user_reps": 0, 
+        "rest_time": 25, 
+        "regular_reps": 6, 
+        "user_times": [], 
+        "regular_times": [
+            8
+        ]
+    }, 
+    {
+        "code": "5.2.6", 
+        "image_link": "", 
+        "user_reps": 0, 
+        "rest_time": 25, 
+        "regular_reps": 6, 
+        "user_times": [], 
+        "regular_times": [
+            8
+        ]
+    }
+]

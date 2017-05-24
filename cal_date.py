@@ -56,8 +56,7 @@ if __name__ == '__main__':
                 for day in week_name:
                     attendence.write("%s "%day)
                 attendence.write('\n')
-            while current_week_line is not []:
-                #print current_week_line
+            while current_week_line != []:
                 this_day = current_week_line.pop()
                 if date_srt.week != this_day:
                     attendence.write("    ")
@@ -67,8 +66,9 @@ if __name__ == '__main__':
             #print current_week_line
             if current_week_line == []:
                 current_week_line = week_line[:]
-            if date_srt.week == "Sat":
                 attendence.write('\n')
+            #if date_srt.week == "Sat":
+            #    attendence.write('\n')
 
         #print log_files
     with open('./history/%s/attendence.txt'%user,'r') as attendence:
