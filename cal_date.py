@@ -50,13 +50,24 @@ if __name__ == '__main__':
             log_file = log_files.pop()
             date = log_file.split('.')[0]
             date_srt = date_struct(date)
+            new_month = 0
             if date_srt.month != current_month:
                 current_month = date_srt.month
                 attendence.write("\n%d | %s\n"%(date_srt.year,month_name[date_srt.month-1]))
                 for day in week_name:
                     attendence.write("%s "%day)
                 attendence.write('\n')
-            while current_week_line != []:
+                new_month = 1
+                current_week_line = week_line[:]
+
+            while 1:
+                #print current_week_line
+                if current_week_line == []:
+                    current_week_line = week_line[:]
+                    if new_month == 1:
+                        new_month = 0
+                    else:
+                        attendence.write('\n')
                 this_day = current_week_line.pop()
                 if date_srt.week != this_day:
                     attendence.write("    ")
@@ -64,9 +75,10 @@ if __name__ == '__main__':
                     attendence.write("%3d "%date_srt.day)
                     break
             #print current_week_line
-            if current_week_line == []:
-                current_week_line = week_line[:]
-                attendence.write('\n')
+            #print current_week_line
+            #if current_week_line == []:
+            #    current_week_line = week_line[:]
+            #    attendence.write('\n')
             #if date_srt.week == "Sat":
             #    attendence.write('\n')
 
